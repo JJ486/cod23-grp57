@@ -243,18 +243,23 @@ module thinpad_top (
   logic [31:0] wbm_dat_i;
   logic [ 3:0] wbm_sel_o;
   logic        wbm_we_o;
+  logic        wbm_err_i;
+  logic        wbm_rty_i;
 
   pipeline u_pipeline (
     .clk_i(sys_clk),
     .rst_i(sys_rst),
-    .wb_cyc_o(wbm_cyc_o),
-    .wb_stb_o(wbm_stb_o),
-    .wb_ack_i(wbm_ack_i),
-    .wb_adr_o(wbm_adr_o),
-    .wb_dat_o(wbm_dat_o),
-    .wb_dat_i(wbm_dat_i),
-    .wb_sel_o(wbm_sel_o),
-    .wb_we_o(wbm_we_o)
+    .push_btn_i(push_btn),
+    .wbs_adr_o(wbm_adr_o),
+    .wbs_dat_i(wbm_dat_i),
+    .wbs_dat_o(wbm_dat_o),
+    .wbs_we_o(wbm_we_o),
+    .wbs_sel_o(wbm_sel_o),
+    .wbs_stb_o(wbm_stb_o),
+    .wbs_ack_i(wbm_ack_i),
+    .wbs_err_i(wbm_err_i),
+    .wbs_rty_i(wbm_rty_i),
+    .wbs_cyc_o(wbm_cyc_o)
   );
 
   /* =========== Pipeline end =========== */

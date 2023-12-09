@@ -11,7 +11,7 @@ module wb_stage (
   input wire wb_reg_write_i,
   input wire [1:0] wb_reg_src_i,
 
-  output reg [31:0] wb_rf_waddr_o,
+  output reg [4:0] wb_rf_waddr_o,
   output reg [31:0] wb_rf_wdata_o,
   output reg wb_reg_write_o
 

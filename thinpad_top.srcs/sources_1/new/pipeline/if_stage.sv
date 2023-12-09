@@ -1,6 +1,7 @@
 module if_stage (
   input wire clk_i,
   input wire rst_i,
+  input wire push_btn_i,
 
   input wire if_stall_i,
   input wire if_flush_i,
@@ -43,10 +44,14 @@ module if_stage (
   always_comb begin
     case (if_current_state)
       IF_IDLE: begin
-        if (if_stall_i) begin
-          if_next_state = IF_IDLE;
+        if (push_btn_i) begin
+          if (if_stall_i) begin
+            if_next_state = IF_IDLE;
+          end else begin
+            if_next_state = IF_READ;
+          end
         end else begin
-          if_next_state = IF_READ;
+          if_next_state = IF_IDLE;
         end
       end
       IF_READ: begin
@@ -82,12 +87,14 @@ module if_stage (
     end else begin
       case (if_current_state)
         IF_IDLE: begin
-          if (!if_stall_i) begin
-            wb_cyc_o <= 1;
-            wb_stb_o <= 1;
-            wb_we_o <= 0;
-            wb_adr_o <= pc;
-            if_ready_o <= 0;
+          if (push_btn_i) begin
+            if (!if_stall_i) begin
+              wb_cyc_o <= 1;
+              wb_stb_o <= 1;
+              wb_we_o <= 0;
+              wb_adr_o <= pc;
+              if_ready_o <= 0;
+            end
           end
         end
         IF_READ: begin

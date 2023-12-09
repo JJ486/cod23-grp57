@@ -3,6 +3,7 @@
 module pipeline (
   input wire clk_i,
   input wire rst_i,
+  input wire push_btn_i,
 
   output reg [31:0] wbs_adr_o,
   input wire [31:0] wbs_dat_i,
@@ -140,6 +141,8 @@ module pipeline (
   logic [31:0] wb0_dat_i;
   logic [3:0] wb0_sel_o;
   logic wb0_we_o;
+  logic wb0_err_o;
+  logic wb0_rty_o;
 
   logic wb1_cyc_o;
   logic wb1_stb_o;
@@ -149,10 +152,13 @@ module pipeline (
   logic [31:0] wb1_dat_i;
   logic [3:0] wb1_sel_o;
   logic wb1_we_o;
+  logic wb1_err_o;
+  logic wb1_rty_o;
   
   if_stage u_if_stage (
     .clk_i(clk_i),
     .rst_i(rst_i),
+    .push_btn_i(push_btn_i),
     .if_stall_i(if_stall),
     .if_flush_i(if_flush),
     .if_ready_o(if_ready),
@@ -415,14 +421,14 @@ module pipeline (
     .clk(clk_i),
     .rst(rst_i),
     .wbm0_adr_i(wb0_adr_o),
-    .wbm0_dat_i('0),
+    .wbm0_dat_i(32'b0),
     .wbm0_dat_o(wb0_dat_i),
     .wbm0_we_i(wb0_we_o),
     .wbm0_sel_i(wb0_sel_o),
     .wbm0_stb_i(wb0_stb_o),
     .wbm0_ack_o(wb0_ack_i),
-    .wbm0_err_o('0)
-    .wbm0_rty_o('0)
+    .wbm0_err_o(wb0_err_o),
+    .wbm0_rty_o(wb0_rty_o),
     .wbm0_cyc_i(wb0_cyc_o),
     .wbm1_adr_i(wb1_adr_o),
     .wbm1_dat_i(wb1_dat_o),
@@ -431,8 +437,8 @@ module pipeline (
     .wbm1_sel_i(wb1_sel_o),
     .wbm1_stb_i(wb1_stb_o),
     .wbm1_ack_o(wb1_ack_i),
-    .wbm1_err_o('0),
-    .wbm1_rty_o('0),
+    .wbm1_err_o(wb1_err_o),
+    .wbm1_rty_o(wb1_rty_o),
     .wbm1_cyc_i(wb1_cyc_o),
     .wbs_adr_o(wbs_adr_o),
     .wbs_dat_i(wbs_dat_i),

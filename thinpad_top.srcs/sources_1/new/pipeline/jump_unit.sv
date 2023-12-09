@@ -5,7 +5,7 @@ module jump_unit (
   input wire [31:0] ctrl_jump_addr_i,
 
   output reg if_flush_o,
-  output reg if_jump_pc_o
+  output reg [31:0] if_jump_pc_o
 );
 
   always_comb begin

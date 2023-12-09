@@ -96,6 +96,9 @@ module inst_decoder_unit (
         inst_JAL: begin
           imm_o = {11'b00000000000, inst_i[31], inst_i[19:12], inst_i[20], inst_i[30:21], 1'b0};
         end
+        default: begin
+          imm_o = 0;
+        end
       endcase
     end else begin
       case (inst_type_o)
@@ -110,6 +113,9 @@ module inst_decoder_unit (
         end
         inst_JAL: begin
           imm_o = {11'b11111111111, inst_i[31], inst_i[19:12], inst_i[20], inst_i[30:21], 1'b0};
+        end
+        default: begin
+          imm_o = 0;
         end
       endcase
     end
